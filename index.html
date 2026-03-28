@@ -170,7 +170,7 @@ html{scroll-behavior:smooth}body{background:var(--bg);color:var(--text);font-fam
 
 <script>
 // Modals
-function openModal(id){document.getElementById(id).classList.add('active');document.body.style.overflow='hidden';if(id==='m-audio')initWV();if(id==='m-img'&&!window.pannellumLoaded){window.pannellumLoaded=true;pannellum.viewer('panorama',{type:'equirectangular',panorama:'https://blackenvelope.b-cdn.net/crime1-seamless.png',autoLoad:true,autoRotate:-2,compass:false,showZoomCtrl:false,showFullscreenCtrl:false,hfov:100})}}
+function openModal(id){document.getElementById(id).classList.add('active');document.body.style.overflow='hidden';if(id==='m-audio')initWV();if(id==='m-img'&&!window.pannellumLoaded){window.pannellumLoaded=true;setTimeout(function(){pannellum.viewer('panorama',{type:'equirectangular',panorama:'https://blackenvelope.b-cdn.net/crime1-seamless.png',autoLoad:true,autoRotate:-2,compass:false,showZoomCtrl:false,showFullscreenCtrl:false,hfov:100})},200)}}
 function closeModal(){document.querySelectorAll('.modal').forEach(function(m){m.classList.remove('active')});document.body.style.overflow='';if(speechSynthesis.speaking)speechSynthesis.cancel();destroyPano()}
 
 // Suspects
