@@ -12,7 +12,7 @@
 :root{--bg:#0a0a0a;--bg2:#111;--bg3:#161616;--bg4:#1c1c1c;--text:#f0ece4;--text2:#8a8578;--text3:#5a5650;--text4:#3a3830;--accent:#c8a55e;--accent-dim:#a08040;--red:#c45c5c;--red-dim:#8b3a3a;--green:#5a8a5a;--border:#222;--border2:#2a2a2a;--fd:'Cormorant Garamond',serif;--fb:'Outfit',sans-serif;--fm:'JetBrains Mono',monospace}
 html{scroll-behavior:smooth}body{background:var(--bg);color:var(--text);font-family:var(--fb);-webkit-font-smoothing:antialiased}
 .pnav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:flex;justify-content:space-between;align-items:center;background:rgba(10,10,10,.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
-.plogo{display:flex;align-items:center;gap:8px}.plogo-t{font-family:var(--fb);font-weight:600;font-size:.85rem;letter-spacing:.3em}.plogo-t span{color:var(--accent);font-weight:300}
+.plogo{display:flex;align-items:center;gap:8px}.plogo-t{font-family:var(--fb);font-weight:600;font-size:.85rem;letter-spacing:.3em;color:var(--text)}.plogo-t span{color:var(--accent);font-weight:300}
 .puser{display:flex;align-items:center;gap:1rem}.prank{padding:.3rem .8rem;border:1px solid rgba(200,165,94,.12);font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;color:var(--accent)}.ppts{font-family:var(--fm);font-size:.65rem;color:var(--text3)}.pavatar{width:32px;height:32px;border-radius:50%;background:var(--bg3);border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;font-size:.7rem;color:var(--text2)}
 .chero{padding:7rem 2rem 3rem;text-align:center;background:radial-gradient(ellipse 60% 50% at 50% 30%,rgba(200,165,94,.03) 0%,transparent 70%)}
 .ctag{font-size:.6rem;letter-spacing:.3em;text-transform:uppercase;color:var(--accent);margin-bottom:1rem;display:flex;align-items:center;justify-content:center;gap:.5rem}.ctag::before{content:'';width:6px;height:6px;background:var(--red);border-radius:50%;animation:pulse 2s infinite}
@@ -70,6 +70,7 @@ html{scroll-behavior:smooth}body{background:var(--bg);color:var(--text);font-fam
 .nbi{display:flex;gap:.5rem;padding:1rem 2rem;border-top:1px solid var(--border);background:var(--bg3)}.nbi input{flex:1;padding:.8rem 1rem;background:var(--bg);border:1px solid var(--border);color:var(--text);font-family:var(--fb);font-size:.85rem;outline:none}.nbi input:focus{border-color:var(--accent)}.nbi input::placeholder{color:var(--text4)}.nbi button{padding:.8rem 1.5rem;background:var(--accent);color:var(--bg);font-family:var(--fb);font-weight:500;font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;border:none;cursor:pointer}.nbi button:hover{background:var(--text)}
 .nbq{font-size:.6rem;color:var(--text4);padding:.5rem 2rem;text-align:right;font-family:var(--fm)}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.img-lightbox{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.92);z-index:9999;align-items:center;justify-content:center;cursor:zoom-out}.img-lightbox.active{display:flex}.img-lightbox img{max-width:90%;max-height:90%;object-fit:contain}.img-lightbox-close{position:absolute;top:1.5rem;right:1.5rem;background:none;border:none;color:#fff;font-size:2rem;cursor:pointer;z-index:10000;line-height:1;font-family:var(--fb)}
 @media(max-width:800px){.sg{grid-template-columns:1fr 1fr}.tmeta,.spg,.evg{grid-template-columns:1fr}.imgg{grid-template-columns:1fr 1fr}.wtab{padding:.8rem 1rem;font-size:.55rem}.pc{padding:2rem 1rem}.nbc{height:300px}.modal-inner{margin:1rem}}
 </style>
 </head>
@@ -156,34 +157,36 @@ html{scroll-behavior:smooth}body{background:var(--bg);color:var(--text);font-fam
 
 <!-- MODAL: IMAGERY -->
 <div class="modal" id="m-img" onclick="if(event.target===this)closeModal()"><button class="modal-close" onclick="closeModal()">&times;</button><div class="modal-inner">
-<div style="margin-bottom:1.5rem"><h3 style="font-family:var(--fm);font-size:.75rem;letter-spacing:.15em;color:var(--accent);margin-bottom:.3rem">CASE PHOTOGRAPHY</h3><p style="font-size:.7rem;color:var(--text3)">Crime scene documentation // Click to enlarge</p></div>
+<div style="margin-bottom:1.5rem"><h3 style="font-family:var(--fm);font-size:.75rem;letter-spacing:.15em;color:var(--accent);margin-bottom:.3rem">CASE PHOTOGRAPHY</h3></div>
 <div style="margin-bottom:1.5rem"><h3 style="font-family:var(--fm);font-size:.75rem;letter-spacing:.15em;color:var(--accent);margin-bottom:.3rem">360° CRIME SCENE — HARGROVE SUNROOM</h3><div id="panorama" style="width:100%;height:400px;border-radius:4px;overflow:hidden;border:1px solid var(--border)"></div></div>
-<button onclick="if(window.pViewer)window.pViewer.toggleFullscreen()" style="margin-top:.5rem;background:none;border:1px solid rgba(200,165,94,.3);color:var(--accent);font-family:var(--fm);font-size:.55rem;letter-spacing:.15em;padding:.4rem .8rem;cursor:pointer">EXPAND FULLSCREEN</button>
+<div style="text-align:center;margin-top:.5rem"><button onclick="if(window.pViewer)window.pViewer.toggleFullscreen()" style="background:none;border:1px solid rgba(200,165,94,.3);color:var(--accent);font-family:var(--fm);font-size:.55rem;letter-spacing:.15em;padding:.4rem .8rem;cursor:pointer">EXPAND 360° VIEW</button></div>
 <div class="imgg">
 <div class="imgc"><div style="height:180px;background:url('https://blackenvelope.b-cdn.net/IMG_2532.jpeg') center/cover;border-bottom:1px solid var(--border)"></div><div class="imgi"><div class="imgt">PHO-001-B</div><div class="imgn">Teacup, half-finished</div></div></div>
 <div class="imgc"><div style="height:180px;background:url('https://blackenvelope.b-cdn.net/Ariel1.png') center/cover;border-bottom:1px solid var(--border)"></div><div class="imgi"><div class="imgt">PHO-001-C</div><div class="imgn">Estate aerial</div></div></div>
 <div class="imgc"><div style="height:180px;background:url('https://blackenvelope.b-cdn.net/IMG_8296.jpeg') center/cover;border-bottom:1px solid var(--border)"></div><div class="imgi"><div class="imgt">PHO-001-D</div><div class="imgn">Greenhouse exterior</div></div></div>
 <div class="imgc"><div style="height:180px;background:url('https://blackenvelope.b-cdn.net/cottage.png') center/cover;border-bottom:1px solid var(--border)"></div><div class="imgi"><div class="imgt">PHO-001-E</div><div class="imgn">Guest cottage</div></div></div>
 <div class="imgc"><div style="height:180px;background:url('https://blackenvelope.b-cdn.net/IMG_9589.jpeg') center/cover;border-bottom:1px solid var(--border)"></div><div class="imgi"><div class="imgt">DOC-001</div><div class="imgn">Amended will</div></div></div>
+<div class="imgc" style="display:flex;align-items:center;justify-content:center;min-height:180px;border:1px dashed var(--border);opacity:0.5"><div style="text-align:center;padding:1rem"><div style="font-family:var(--fm);font-size:.65rem;letter-spacing:.15em;color:var(--accent);margin-bottom:.5rem">WEEK 02</div><div style="font-size:.7rem;color:var(--text3)">Additional photography<br>drops with next evidence release</div></div></div>
 </div>
 </div></div>
 
 <script>
 // Modals
 function openModal(id){document.getElementById(id).classList.add('active');document.body.style.overflow='hidden';if(id==='m-audio')initWV();if(id==='m-img'&&!window.pannellumLoaded){window.pannellumLoaded=true;setTimeout(function(){window.pViewer=pannellum.viewer('panorama',{type:'equirectangular',panorama:'https://blackenvelope.b-cdn.net/crime1-seamless.png',autoLoad:true,autoRotate:-2,compass:false,showZoomCtrl:false,showFullscreenCtrl:false,hfov:100})},200)}}
-function closeModal(){document.querySelectorAll('.modal').forEach(function(m){m.classList.remove('active')});document.body.style.overflow='';if(speechSynthesis.speaking)speechSynthesis.cancel();destroyPano()}
+function closeModal(){document.querySelectorAll('.modal').forEach(function(m){m.classList.remove('active')});document.body.style.overflow='';if(isP)togglePlay();destroyPano()}
 
 // Suspects
 var as=null;function toggleS(n){var p=document.getElementById('p-'+n);if(!p)return;document.querySelectorAll('.spanel').forEach(function(el){if(el.id!=='p-'+n)el.classList.remove('active')});if(as===n){p.classList.remove('active');as=null}else{p.classList.add('active');as=n}}
 
-// Audio with speech synthesis
-var vmText="It's Margaret. I know you told me to wait, but I can't. I've made the change, and Franklin has the paperwork. I don't care what they think when they find out. They'll all be here this weekend. ... I know what I saw in that greenhouse, and I know what it means. If something happens to me... you'll know what to do with what I gave you. ... I should have done this years ago. Goodnight.";
+// Audio with real audio file
+var vmAudio=new Audio('https://blackenvelope.b-cdn.net/MargaretVM.mp3');
 var isP=false,pInt=null,cP=0,tD=72,wvInit=false;
 function initWV(){if(wvInit)return;wvInit=true;var w=document.getElementById('wv');for(var i=0;i<120;i++){var b=document.createElement('div');b.className='wb';var h=Math.random()*.7+.3;var sp=[0,1,2,3,8,9,10,11,15,16,17,18,25,26,27,28,29,30,31,38,39,40,41,42,54,55,56,57];var isSp=sp.some(function(s){return Math.abs(i-s*2)<3});b.style.height=(isSp?h*45+10:h*15+3)+'px';w.appendChild(b)}}
-function togglePlay(){isP=!isP;var ic=document.getElementById('picon');if(isP){ic.innerHTML='<rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/>';pInt=setInterval(function(){cP+=.5;if(cP>=tD){cP=0;togglePlay();return}uP()},500);var u=new SpeechSynthesisUtterance(vmText);u.rate=.88;u.pitch=1.1;var voices=speechSynthesis.getVoices();var pref=voices.find(function(v){return v.name.includes('Samantha')}) || voices.find(function(v){return v.lang==='en-US'&&v.name.includes('Female')}) || voices.find(function(v){return v.lang.startsWith('en')});if(pref)u.voice=pref;u.onend=function(){if(isP)togglePlay()};speechSynthesis.speak(u)}else{ic.innerHTML='<polygon points="5,3 19,12 5,21"/>';clearInterval(pInt);speechSynthesis.cancel()}}
+vmAudio.addEventListener('loadedmetadata',function(){if(vmAudio.duration&&isFinite(vmAudio.duration))tD=vmAudio.duration});
+vmAudio.addEventListener('ended',function(){isP=false;clearInterval(pInt);cP=0;uP();document.getElementById('picon').innerHTML='<polygon points="5,3 19,12 5,21"/>'});
+function togglePlay(){isP=!isP;var ic=document.getElementById('picon');if(isP){ic.innerHTML='<rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/>';vmAudio.play();pInt=setInterval(function(){cP=vmAudio.currentTime;if(cP>=tD){cP=0;togglePlay();return}uP()},250)}else{ic.innerHTML='<polygon points="5,3 19,12 5,21"/>';clearInterval(pInt);vmAudio.pause()}}
 function uP(){var pct=(cP/tD)*100;document.getElementById('pf').style.width=pct+'%';var m=Math.floor(cP/60),s=Math.floor(cP%60);document.getElementById('ct').textContent=m+':'+(s<10?'0':'')+s;var bars=document.getElementById('wv').querySelectorAll('.wb');var pl=Math.floor(pct/100*bars.length);bars.forEach(function(b,i){b.classList.toggle('played',i<pl)})}
-function seekA(e){var r=e.currentTarget.getBoundingClientRect();cP=((e.clientX-r.left)/r.width)*tD;uP()}
-speechSynthesis.onvoiceschanged=function(){speechSynthesis.getVoices()};
+function seekA(e){var r=e.currentTarget.getBoundingClientRect();cP=((e.clientX-r.left)/r.width)*tD;vmAudio.currentTime=cP;uP()}
 
 // Notebook
 var nbResp=[
@@ -199,6 +202,11 @@ function submitT(){var inp=document.getElementById('nbin');var txt=inp.value.tri
 var panoViewer=null;
 function initPano(){if(panoViewer)return;setTimeout(function(){panoViewer=pannellum.viewer("panorama",{type:"equirectangular",panorama:"https://blackenvelope.b-cdn.net/crime1-seamless.png",autoLoad:true,showControls:true,showFullscreenCtrl:false,compass:false,mouseZoom:true,hfov:100})},100)}
 function destroyPano(){if(panoViewer){panoViewer.destroy();panoViewer=null}}
+</script>
+<div class="img-lightbox" id="imgLightbox" onclick="closeLightbox()"><button class="img-lightbox-close" onclick="closeLightbox()">&times;</button><img id="lightboxImg" src="" alt=""></div>
+<script>
+(function(){var lb=document.getElementById('imgLightbox'),lbImg=document.getElementById('lightboxImg');document.querySelectorAll('.imgg .imgc').forEach(function(card){var bg=card.querySelector('div[style*="background:url"]');if(!bg)return;var m=bg.getAttribute('style').match(/url\(['"]?([^'")]+)['"]?\)/);if(!m)return;card.addEventListener('click',function(){lbImg.src=m[1];lb.classList.add('active');document.body.style.overflow='hidden'})});document.addEventListener('keydown',function(e){if(e.key==='Escape'&&lb.classList.contains('active'))closeLightbox()})})();
+function closeLightbox(){var lb=document.getElementById('imgLightbox');lb.classList.remove('active');document.getElementById('lightboxImg').src='';if(!document.querySelector('.modal.active'))document.body.style.overflow=''}
 </script>
 </body>
 </html>
