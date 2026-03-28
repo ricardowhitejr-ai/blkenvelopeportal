@@ -173,19 +173,20 @@ html{scroll-behavior:smooth}body{background:var(--bg);color:var(--text);font-fam
 <script>
 // Modals
 function openModal(id){document.getElementById(id).classList.add('active');document.body.style.overflow='hidden';if(id==='m-audio')initWV();if(id==='m-img'&&!window.pannellumLoaded){window.pannellumLoaded=true;setTimeout(function(){window.pViewer=pannellum.viewer('panorama',{type:'equirectangular',panorama:'https://blackenvelope.b-cdn.net/crime1-seamless.png',autoLoad:true,autoRotate:-2,compass:false,showZoomCtrl:false,showFullscreenCtrl:false,hfov:100})},200)}}
-function closeModal(){document.querySelectorAll('.modal').forEach(function(m){m.classList.remove('active')});document.body.style.overflow='';if(speechSynthesis.speaking)speechSynthesis.cancel();destroyPano()}
+function closeModal(){document.querySelectorAll('.modal').forEach(function(m){m.classList.remove('active')});document.body.style.overflow='';if(isP)togglePlay();destroyPano()}
 
 // Suspects
 var as=null;function toggleS(n){var p=document.getElementById('p-'+n);if(!p)return;document.querySelectorAll('.spanel').forEach(function(el){if(el.id!=='p-'+n)el.classList.remove('active')});if(as===n){p.classList.remove('active');as=null}else{p.classList.add('active');as=n}}
 
-// Audio with speech synthesis
-var vmText="It's Margaret. I know you told me to wait, but I can't. I've made the change, and Franklin has the paperwork. I don't care what they think when they find out. They'll all be here this weekend. ... I know what I saw in that greenhouse, and I know what it means. If something happens to me... you'll know what to do with what I gave you. ... I should have done this years ago. Goodnight.";
+// Audio with real audio file
+var vmAudio=new Audio('https://blackenvelope.b-cdn.net/MargaretVM.mp3');
 var isP=false,pInt=null,cP=0,tD=72,wvInit=false;
 function initWV(){if(wvInit)return;wvInit=true;var w=document.getElementById('wv');for(var i=0;i<120;i++){var b=document.createElement('div');b.className='wb';var h=Math.random()*.7+.3;var sp=[0,1,2,3,8,9,10,11,15,16,17,18,25,26,27,28,29,30,31,38,39,40,41,42,54,55,56,57];var isSp=sp.some(function(s){return Math.abs(i-s*2)<3});b.style.height=(isSp?h*45+10:h*15+3)+'px';w.appendChild(b)}}
-function togglePlay(){isP=!isP;var ic=document.getElementById('picon');if(isP){ic.innerHTML='<rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/>';pInt=setInterval(function(){cP+=.5;if(cP>=tD){cP=0;togglePlay();return}uP()},500);var u=new SpeechSynthesisUtterance(vmText);u.rate=.88;u.pitch=1.1;var voices=speechSynthesis.getVoices();var pref=voices.find(function(v){return v.name.includes('Samantha')}) || voices.find(function(v){return v.lang==='en-US'&&v.name.includes('Female')}) || voices.find(function(v){return v.lang.startsWith('en')});if(pref)u.voice=pref;u.onend=function(){if(isP)togglePlay()};speechSynthesis.speak(u)}else{ic.innerHTML='<polygon points="5,3 19,12 5,21"/>';clearInterval(pInt);speechSynthesis.cancel()}}
+vmAudio.addEventListener('loadedmetadata',function(){if(vmAudio.duration&&isFinite(vmAudio.duration))tD=vmAudio.duration});
+vmAudio.addEventListener('ended',function(){isP=false;clearInterval(pInt);cP=0;uP();document.getElementById('picon').innerHTML='<polygon points="5,3 19,12 5,21"/>'});
+function togglePlay(){isP=!isP;var ic=document.getElementById('picon');if(isP){ic.innerHTML='<rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/>';vmAudio.play();pInt=setInterval(function(){cP=vmAudio.currentTime;if(cP>=tD){cP=0;togglePlay();return}uP()},250)}else{ic.innerHTML='<polygon points="5,3 19,12 5,21"/>';clearInterval(pInt);vmAudio.pause()}}
 function uP(){var pct=(cP/tD)*100;document.getElementById('pf').style.width=pct+'%';var m=Math.floor(cP/60),s=Math.floor(cP%60);document.getElementById('ct').textContent=m+':'+(s<10?'0':'')+s;var bars=document.getElementById('wv').querySelectorAll('.wb');var pl=Math.floor(pct/100*bars.length);bars.forEach(function(b,i){b.classList.toggle('played',i<pl)})}
-function seekA(e){var r=e.currentTarget.getBoundingClientRect();cP=((e.clientX-r.left)/r.width)*tD;uP()}
-speechSynthesis.onvoiceschanged=function(){speechSynthesis.getVoices()};
+function seekA(e){var r=e.currentTarget.getBoundingClientRect();cP=((e.clientX-r.left)/r.width)*tD;vmAudio.currentTime=cP;uP()}
 
 // Notebook
 var nbResp=[
