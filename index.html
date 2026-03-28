@@ -70,6 +70,7 @@ html{scroll-behavior:smooth}body{background:var(--bg);color:var(--text);font-fam
 .nbi{display:flex;gap:.5rem;padding:1rem 2rem;border-top:1px solid var(--border);background:var(--bg3)}.nbi input{flex:1;padding:.8rem 1rem;background:var(--bg);border:1px solid var(--border);color:var(--text);font-family:var(--fb);font-size:.85rem;outline:none}.nbi input:focus{border-color:var(--accent)}.nbi input::placeholder{color:var(--text4)}.nbi button{padding:.8rem 1.5rem;background:var(--accent);color:var(--bg);font-family:var(--fb);font-weight:500;font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;border:none;cursor:pointer}.nbi button:hover{background:var(--text)}
 .nbq{font-size:.6rem;color:var(--text4);padding:.5rem 2rem;text-align:right;font-family:var(--fm)}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.img-lightbox{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.92);z-index:9999;align-items:center;justify-content:center;cursor:zoom-out}.img-lightbox.active{display:flex}.img-lightbox img{max-width:90%;max-height:90%;object-fit:contain}.img-lightbox-close{position:absolute;top:1.5rem;right:1.5rem;background:none;border:none;color:#fff;font-size:2rem;cursor:pointer;z-index:10000;line-height:1;font-family:var(--fb)}
 @media(max-width:800px){.sg{grid-template-columns:1fr 1fr}.tmeta,.spg,.evg{grid-template-columns:1fr}.imgg{grid-template-columns:1fr 1fr}.wtab{padding:.8rem 1rem;font-size:.55rem}.pc{padding:2rem 1rem}.nbc{height:300px}.modal-inner{margin:1rem}}
 </style>
 </head>
@@ -165,6 +166,7 @@ html{scroll-behavior:smooth}body{background:var(--bg);color:var(--text);font-fam
 <div class="imgc"><div style="height:180px;background:url('https://blackenvelope.b-cdn.net/IMG_8296.jpeg') center/cover;border-bottom:1px solid var(--border)"></div><div class="imgi"><div class="imgt">PHO-001-D</div><div class="imgn">Greenhouse exterior</div></div></div>
 <div class="imgc"><div style="height:180px;background:url('https://blackenvelope.b-cdn.net/cottage.png') center/cover;border-bottom:1px solid var(--border)"></div><div class="imgi"><div class="imgt">PHO-001-E</div><div class="imgn">Guest cottage</div></div></div>
 <div class="imgc"><div style="height:180px;background:url('https://blackenvelope.b-cdn.net/IMG_9589.jpeg') center/cover;border-bottom:1px solid var(--border)"></div><div class="imgi"><div class="imgt">DOC-001</div><div class="imgn">Amended will</div></div></div>
+<div class="imgc" style="display:flex;align-items:center;justify-content:center;min-height:180px;border:1px dashed var(--border);opacity:0.5"><div style="text-align:center;padding:1rem"><div style="font-family:var(--fm);font-size:.65rem;letter-spacing:.15em;color:var(--accent);margin-bottom:.5rem">WEEK 02</div><div style="font-size:.7rem;color:var(--text3)">Additional photography<br>drops with next evidence release</div></div></div>
 </div>
 </div></div>
 
@@ -199,6 +201,11 @@ function submitT(){var inp=document.getElementById('nbin');var txt=inp.value.tri
 var panoViewer=null;
 function initPano(){if(panoViewer)return;setTimeout(function(){panoViewer=pannellum.viewer("panorama",{type:"equirectangular",panorama:"https://blackenvelope.b-cdn.net/crime1-seamless.png",autoLoad:true,showControls:true,showFullscreenCtrl:false,compass:false,mouseZoom:true,hfov:100})},100)}
 function destroyPano(){if(panoViewer){panoViewer.destroy();panoViewer=null}}
+</script>
+<div class="img-lightbox" id="imgLightbox" onclick="closeLightbox()"><button class="img-lightbox-close" onclick="closeLightbox()">&times;</button><img id="lightboxImg" src="" alt=""></div>
+<script>
+(function(){var lb=document.getElementById('imgLightbox'),lbImg=document.getElementById('lightboxImg');document.querySelectorAll('.imgg .imgc').forEach(function(card){var bg=card.querySelector('div[style*="background:url"]');if(!bg)return;var m=bg.getAttribute('style').match(/url\(['"]?([^'")]+)['"]?\)/);if(!m)return;card.addEventListener('click',function(){lbImg.src=m[1];lb.classList.add('active');document.body.style.overflow='hidden'})});document.addEventListener('keydown',function(e){if(e.key==='Escape'&&lb.classList.contains('active'))closeLightbox()})})();
+function closeLightbox(){var lb=document.getElementById('imgLightbox');lb.classList.remove('active');document.getElementById('lightboxImg').src='';if(!document.querySelector('.modal.active'))document.body.style.overflow=''}
 </script>
 </body>
 </html>
