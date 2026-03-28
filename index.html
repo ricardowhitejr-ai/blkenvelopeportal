@@ -70,8 +70,6 @@ html{scroll-behavior:smooth}body{background:var(--bg);color:var(--text);font-fam
 .nbi{display:flex;gap:.5rem;padding:1rem 2rem;border-top:1px solid var(--border);background:var(--bg3)}.nbi input{flex:1;padding:.8rem 1rem;background:var(--bg);border:1px solid var(--border);color:var(--text);font-family:var(--fb);font-size:.85rem;outline:none}.nbi input:focus{border-color:var(--accent)}.nbi input::placeholder{color:var(--text4)}.nbi button{padding:.8rem 1.5rem;background:var(--accent);color:var(--bg);font-family:var(--fb);font-weight:500;font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;border:none;cursor:pointer}.nbi button:hover{background:var(--text)}
 .nbq{font-size:.6rem;color:var(--text4);padding:.5rem 2rem;text-align:right;font-family:var(--fm)}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
-/* Panorama fullscreen */
-.pano-fs{position:fixed;inset:0;z-index:300;background:#000;display:none}.pano-fs.active{display:block}.pano-fs-viewer{width:100%;height:100%}.pano-fs-info{position:absolute;top:1.5rem;left:2rem;z-index:310}.pano-fs-info .pano-fs-title{font-family:var(--fm);font-size:.7rem;letter-spacing:.2em;color:var(--accent);margin-bottom:.3rem}.pano-fs-info .pano-fs-date{font-family:var(--fm);font-size:.6rem;letter-spacing:.15em;color:var(--accent-dim)}.pano-fs-close{position:absolute;top:1.2rem;right:2rem;z-index:310;background:none;border:1px solid rgba(200,165,94,.3);color:var(--accent);font-family:var(--fm);font-size:.6rem;letter-spacing:.15em;padding:.5rem 1rem;cursor:pointer;transition:all .3s}.pano-fs-close:hover{background:rgba(200,165,94,.1);border-color:var(--accent)}
 @media(max-width:800px){.sg{grid-template-columns:1fr 1fr}.tmeta,.spg,.evg{grid-template-columns:1fr}.imgg{grid-template-columns:1fr 1fr}.wtab{padding:.8rem 1rem;font-size:.55rem}.pc{padding:2rem 1rem}.nbc{height:300px}.modal-inner{margin:1rem}}
 </style>
 </head>
@@ -159,12 +157,11 @@ html{scroll-behavior:smooth}body{background:var(--bg);color:var(--text);font-fam
 <!-- MODAL: IMAGERY -->
 <div class="modal" id="m-img" onclick="if(event.target===this)closeModal()"><button class="modal-close" onclick="closeModal()">&times;</button><div class="modal-inner">
 <div style="margin-bottom:1.5rem"><h3 style="font-family:var(--fm);font-size:.75rem;letter-spacing:.15em;color:var(--accent);margin-bottom:.3rem">CASE PHOTOGRAPHY</h3><p style="font-size:.7rem;color:var(--text3)">Crime scene documentation // Click to enlarge</p></div>
-<div style="margin-bottom:1.5rem"><h3 style="font-family:var(--fm);font-size:.75rem;letter-spacing:.15em;color:var(--accent);margin-bottom:.3rem">360° CRIME SCENE — HARGROVE SUNROOM</h3><div id="panorama" style="width:100%;height:400px;border-radius:4px;overflow:hidden;border:1px solid var(--border);cursor:pointer" onclick="enterPanoFS()"></div></div>
+<div style="margin-bottom:1.5rem"><h3 style="font-family:var(--fm);font-size:.75rem;letter-spacing:.15em;color:var(--accent);margin-bottom:.3rem">360° CRIME SCENE — HARGROVE SUNROOM</h3><div id="panorama" style="width:100%;height:400px;border-radius:4px;overflow:hidden;border:1px solid var(--border)"></div></div>
 <div class="imgg">
 </div>
 </div></div>
 
-<div class="pano-fs" id="pano-fs"><div class="pano-fs-info"><div class="pano-fs-title">HARGROVE ESTATE — SUNROOM</div><div class="pano-fs-date">February 14, 2026 // 7:38 AM</div></div><button class="pano-fs-close" onclick="exitPanoFS()">✕ EXIT</button><div class="pano-fs-viewer" id="pano-fs-viewer"></div></div>
 <script>
 // Modals
 function openModal(id){document.getElementById(id).classList.add('active');document.body.style.overflow='hidden';if(id==='m-audio')initWV();if(id==='m-img'&&!window.pannellumLoaded){window.pannellumLoaded=true;setTimeout(function(){pannellum.viewer('panorama',{type:'equirectangular',panorama:'https://blackenvelope.b-cdn.net/crime1-seamless.png',autoLoad:true,autoRotate:-2,compass:false,showZoomCtrl:false,showFullscreenCtrl:false,hfov:100})},200)}}
@@ -196,9 +193,6 @@ function submitT(){var inp=document.getElementById('nbin');var txt=inp.value.tri
 var panoViewer=null;
 function initPano(){if(panoViewer)return;setTimeout(function(){panoViewer=pannellum.viewer("panorama",{type:"equirectangular",panorama:"https://blackenvelope.b-cdn.net/crime1-seamless.png",autoLoad:true,showControls:true,showFullscreenCtrl:false,compass:false,mouseZoom:true,hfov:100})},100)}
 function destroyPano(){if(panoViewer){panoViewer.destroy();panoViewer=null}}
-var panoFSViewer=null;
-function enterPanoFS(){document.getElementById("pano-fs").classList.add("active");document.body.style.overflow="hidden";if(!panoFSViewer){panoFSViewer=pannellum.viewer("pano-fs-viewer",{type:"equirectangular",panorama:"https://blackenvelope.b-cdn.net/crime1-seamless.png",autoLoad:true,autoRotate:-2,compass:false,showZoomCtrl:false,showFullscreenCtrl:false,hfov:100})}}
-function exitPanoFS(){document.getElementById("pano-fs").classList.remove("active");document.body.style.overflow="hidden";if(panoFSViewer){panoFSViewer.destroy();panoFSViewer=null}}
 </script>
 </body>
 </html>
